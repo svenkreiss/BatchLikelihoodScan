@@ -2,21 +2,15 @@
 
 Creates (profile) likelihood scans of RooFit/RooStats models in any dimension locally or on batch systems.
 
+This package provides the executables `batchLikelihoodScan` and `batchLikelihoodPlot`.
+
 # Install
 
-Setup your virtualenv
-
-```
-virtualenv venv
-source venv/bin/activate
-```
-
-and install this package
+Setup your virtualenv and install this package from git
 
 ```
 pip install git+https://github.com/svenkreiss/BatchLikelihoodScan.git
 ```
-
 
 # Example
 
@@ -80,3 +74,18 @@ The argument to "-i" can be a glob expression to log files (add quotes). Use "-q
 suppress drawing and saving of the png image.
 
 ![pl1D](doc/batchProfileLikelihood1D.png)
+
+
+# Dev notes
+
+To install from a local checkout:
+
+```
+pip install -e ../BatchLikelihoodScan/
+```
+
+To run tests (from inside the virtualenv, but you have to use the Makefile in the package):
+
+```
+make test -f ../BatchLikelihoodScan/Makefile
+```
