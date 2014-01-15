@@ -2,6 +2,23 @@
 
 Creates (profile) likelihood scans of RooFit/RooStats models in any dimension locally or on batch systems.
 
+# Install
+
+Setup your virtualenv
+
+```
+virtualenv venv
+source venv/bin/activate
+```
+
+and install this package
+
+```
+pip install git+https://github.com/svenkreiss/BatchLikelihoodScan.git
+```
+
+
+# Example
 
 Scanning grid is constructed from the parameters of interest in the `ModelConfig` and the bins set for these parameters. The algorithm is completely general and works for any (reasonable) number of parameters.
 
@@ -14,7 +31,7 @@ of jobs (in this case 16). You can reproduce this with
 prepareHistFactory
 hist2workspace config/example.xml
 
-python BatchProfileLikelihood.py --overwritePOI=SigXsecOverSM=1,alpha_syst2=0 --overwriteBins=SigXsecOverSM=6,alpha_syst2=10 -f -j 16 -c 14
+batchLikelihoodScan --overwritePOI=SigXsecOverSM=1,alpha_syst2=0 --overwriteBins=SigXsecOverSM=6,alpha_syst2=10 -f -j 16 -c 14
 ```
 
 For book-keeping and later plotting setup, it prints this at the beginning:
@@ -50,13 +67,13 @@ And then it starts looping of the grid points.
 Produce sample log file:
 
 ```
-python BatchProfileLikelihood.py --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
+batchLikelihoodScan --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
 ```
 
 And create plots:
 
 ```
-python BatchProfileLikelihoodPlot.py --subtractMinNLL
+batchLikelihoodPlot --subtractMinNLL
 ```
 
 The argument to "-i" can be a glob expression to log files (add quotes). Use "-q" to 

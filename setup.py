@@ -9,11 +9,11 @@ setup(
     long_description=open('README.md').read(),
     author='Sven Kreiss, Kyle Cranmer',
     author_email='sk@svenkreiss.com',
-    install_requires=['PyROOTUtils'],
+    install_requires=[], #['PyROOTUtils'],
     entry_points={
         'console_scripts': [
-            'BatchLikelihoodScan = BatchLikelihoodScan.scan:main',
-            'BatchLikelihoodPlot = BatchLikelihoodScan.plot:main',
+            'batchLikelihoodScan = BatchLikelihoodScan.scan:main',
+            'batchLikelihoodPlot = BatchLikelihoodScan.plot:main',
         ]
     }
 )

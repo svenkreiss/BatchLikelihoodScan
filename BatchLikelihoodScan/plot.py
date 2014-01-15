@@ -363,7 +363,7 @@ def main():
          lGraph.SetTitle( "Likelihood" )
          lGraph.transformY( lambda y: math.exp(-y) )
          lGraph.Draw("AXIS L")
-      canvas.SaveAs( "doc/images/batchProfileLikelihood1D.png" )
+      canvas.SaveAs( "batchProfileLikelihood1D.png" )
       canvas.Update()
       raw_input( "Press enter to continue ..." )
    
