@@ -6,5 +6,5 @@ results/example_combined_GaussExample_model.root:
 
 test: results/example_combined_GaussExample_model.root
 	@echo "--- Running 1D example shown in README ---"
-	batchLikelihoodScan --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
-	batchLikelihoodPlot --subtractMinNLL
+	batch_likelihood_scan --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
+	batch_likelihood_plot --subtractMinNLL

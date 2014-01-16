@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #  BatchProfileLikelihood
 # 
 #  date: February 12, 2013
@@ -15,14 +13,14 @@ __author__ = "Sven Kreiss, Kyle Cranmer"
 __version__ = "0.1"
 
 
-import helperModifyModelConfig
+import PyROOTUtils
 
 
 import optparse
 parser = optparse.OptionParser(version="0.1")
 parser.add_option("-o", "--output", help="output location", type="string", dest="output", default="batchOutput/")
 
-helperModifyModelConfig.addOptionsToOptParse( parser )
+PyROOTUtils.ModelConfigUtils.addOptionsToOptParse( parser )
 parser.add_option("-c", "--counter", help="Number of this job.", dest="counter", type="int", default=1)
 parser.add_option("-j", "--jobs", help="Number of jobs.", dest="jobs", type="int", default=1)
 
@@ -57,9 +55,8 @@ else:                         options.reorderParameters = []
 
 
 import ROOT
-import helperStyle
+import PyROOTUtils.style
 
-import PyROOTUtils
 import math
 from array import array
 import time
@@ -199,7 +196,7 @@ def minimize( nll ):
 def preFit( w, mc, nll ):   
    if not options.initVars: return
    
-   initVars = helperModifyModelConfig.varsDictFromString( options.initVars )
+   initVars = PyROOTUtils.ModelConfigUtils.varsDictFromString( options.initVars )
    for name,valErr in initVars.iteritems():
       if w.var( name ):
          if valErr[1]:
@@ -227,7 +224,7 @@ def main():
    mc = w.obj( options.mcName )
    data = w.data( options.dataName )
    
-   f,w,mc,data = helperModifyModelConfig.apply( options, f,w,mc,data )
+   f,w,mc,data = PyROOTUtils.ModelConfigUtils.apply( options, f,w,mc,data )
 
    if options.verbose:
       print( "--- main pdf to use ---" )
@@ -337,7 +334,7 @@ def main():
          result += ", ".join( [nuisL.at(p).GetName()+"="+str(nuisL.at(p).getVal()) for p in range(nuisL.getSize())] )
       print( result )
 
-      f,w,mc,data = helperModifyModelConfig.callHooks( options, f,w,mc,data, type="postUnconditionalFit" )
+      f,w,mc,data = PyROOTUtils.ModelConfigUtils.callHooks( options, f,w,mc,data, type="postUnconditionalFit" )
 
 
    # conditional fits
@@ -348,7 +345,7 @@ def main():
       print( "" )
       print( "--- next point: "+str(i)+" ---" )
       print( "Parameters Of Interest: "+str([ poiL.at(p).getVal() for p in range(poiL.getSize()) ]) )
-      f,w,mc,data = helperModifyModelConfig.callHooks( options, f,w,mc,data, type="preConditionalFit" )
+      f,w,mc,data = PyROOTUtils.ModelConfigUtils.callHooks( options, f,w,mc,data, type="preConditionalFit" )
       nllVal = None
       if options.evaluateWithoutOffset: nllVal = nllNoOffset.getVal()
       else:                             nllVal = nll.getVal()

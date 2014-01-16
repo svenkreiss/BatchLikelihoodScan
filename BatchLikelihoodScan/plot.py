@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #  Created on: February 12, 2013
 
 __author__ = "Sven Kreiss, Kyle Cranmer"
@@ -20,6 +18,7 @@ parser.add_option("-q", "--quiet", dest="verbose", action="store_false", default
 import ROOT
 ROOT.gROOT.SetBatch( True )
 import PyROOTUtils
+import PyROOTUtils.style
 
 import os, math
 import glob, re
@@ -346,7 +345,6 @@ def main():
    f.Close()
    
    if options.verbose:
-      import helperStyle
       canvas = ROOT.TCanvas( "verboseOutput", "verbose output", 600,300 )
       canvas.Divide( 2 )
       canvas.cd(1)

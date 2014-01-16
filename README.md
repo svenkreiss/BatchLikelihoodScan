@@ -2,7 +2,7 @@
 
 Creates (profile) likelihood scans of RooFit/RooStats models in any dimension locally or on batch systems.
 
-This package provides the executables `batchLikelihoodScan` and `batchLikelihoodPlot`.
+This package provides the executables `batch_likelihood_scan` and `batch_likelihood_plot`.
 
 # Install
 
@@ -25,7 +25,7 @@ of jobs (in this case 16). You can reproduce this with
 prepareHistFactory
 hist2workspace config/example.xml
 
-batchLikelihoodScan --overwritePOI=SigXsecOverSM=1,alpha_syst2=0 --overwriteBins=SigXsecOverSM=6,alpha_syst2=10 -f -j 16 -c 14
+batch_likelihood_scan --overwritePOI=SigXsecOverSM=1,alpha_syst2=0 --overwriteBins=SigXsecOverSM=6,alpha_syst2=10 -f -j 16 -c 14
 ```
 
 For book-keeping and later plotting setup, it prints this at the beginning:
@@ -61,13 +61,13 @@ And then it starts looping of the grid points.
 Produce sample log file:
 
 ```
-batchLikelihoodScan --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
+batch_likelihood_scan --overwritePOI=SigXsecOverSM=1 --overwriteBins=SigXsecOverSM=100 -j 1 -c 0 -q | tee batchProfile.log
 ```
 
 And create plots:
 
 ```
-batchLikelihoodPlot --subtractMinNLL
+batch_likelihood_plot --subtractMinNLL
 ```
 
 The argument to "-i" can be a glob expression to log files (add quotes). Use "-q" to 
@@ -76,16 +76,15 @@ suppress drawing and saving of the png image.
 ![pl1D](doc/batchProfileLikelihood1D.png)
 
 
-# Dev notes
-
-To install from a local checkout:
+# Development Notes
 
 ```
+virtualenv-2.7 venv
+source venv/bin/activate
 pip install -e ../BatchLikelihoodScan/
-```
+make test -f ../BatchLikelihoodScan/Makefile
 
-To run tests (from inside the virtualenv, but you have to use the Makefile in the package):
-
-```
+# update during development
+pip install -e ../BatchLikelihoodScan/ --upgrade
 make test -f ../BatchLikelihoodScan/Makefile
 ```
