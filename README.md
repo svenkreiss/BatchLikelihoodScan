@@ -6,7 +6,7 @@ This package provides the executables `batch_likelihood_scan` and `batch_likelih
 
 # Install
 
-Setup your virtualenv and install this package from git
+Setup your `virtualenv` and install this package from git
 
 ```
 pip install git+https://github.com/svenkreiss/BatchLikelihoodScan.git
