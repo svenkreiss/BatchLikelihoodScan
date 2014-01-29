@@ -11,7 +11,7 @@ setup(
     author_email='sk@svenkreiss.com',
 
     dependency_links= [
-        'https://github.com/svenkreiss/PyROOTUtils/tarball/master#egg=PyROOTUtils-0.1.2',
+        'https://github.com/svenkreiss/PyROOTUtils/tarball/master#egg=PyROOTUtils-1.0.1',
     ],
     install_requires= ['PyROOTUtils'],
 
