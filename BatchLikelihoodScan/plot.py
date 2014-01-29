@@ -35,6 +35,7 @@ def getContours( hist, level, levelName, canvas ):
       contours[co].SetLineWidth( 2 )
       contours[co].SetLineColor( ROOT.kBlue )
       contours[co].SetName( "Contour%s_%d" % (levelName,co) )
+   hist.SetContour(0)
    return contours
 
 
@@ -343,7 +344,7 @@ def main():
    if bestFitMarker: bestFitMarker.Write("bestFit")
    f.Close()
    
-   if options.verbose:
+   if options.verbose and len(POIs) == 1:
       PyROOTUtils.style()
       canvas = ROOT.TCanvas( "verboseOutput", "verbose output", 600,300 )
       canvas.Divide( 2 )
