@@ -2,8 +2,8 @@ from distutils.core import setup
  
 setup(
     name='BatchLikelihoodScan',
-    version='1.0.2',
-    packages=['BatchLikelihoodScan', ],
+    version='1.0.3',
+    packages=['BatchLikelihoodScan', 'BatchLikelihoodScan.Plugins'],
     license='LICENSE',
     description='Creates (profile) likelihood scans of RooFit/RooStats models in any dimension locally or on batch systems.',
     long_description=open('README.md').read(),
@@ -11,7 +11,7 @@ setup(
     author_email='sk@svenkreiss.com',
 
     dependency_links= [
-        'https://github.com/svenkreiss/PyROOTUtils/tarball/master#egg=PyROOTUtils-0.1.1',
+        'https://github.com/svenkreiss/PyROOTUtils/tarball/master#egg=PyROOTUtils-0.1.2',
     ],
     install_requires= ['PyROOTUtils'],
 
