@@ -8,10 +8,11 @@ __version__ = "0.1"
 
 import optparse
 
-parser = optparse.OptionParser(version="0.1")
+parser = optparse.OptionParser(version="0.1.1")
 parser.add_option("-i", "--inputFiles", help="glob expression for log files from BatchProfileLikelihood.py", type="string", dest="inputFiles", default="batchProfile.log")
 parser.add_option("-o", "--outputFile", help="output root file", type="string", dest="outputFile", default="PL_data.root")
 parser.add_option(      "--subtractMinNLL", help="subtracts the minNLL", dest="subtractMinNLL", default=False, action="store_true")
+parser.add_option(      "--addUnconditionalFitToGraph", dest="addUnconditionalFitToGraph", help="adds also the point from the unconditional fit to the graph", default=False, action="store_true")
 parser.add_option("-q", "--quiet", dest="verbose", action="store_false", default=True, help="Quiet output.")
 (options, args) = parser.parse_args()
 
@@ -50,7 +51,7 @@ def getInputFromLogs( files ):
    POIs = []
    NUISs = []
    
-   regexParValue = re.compile( "^(?P<par>[-\b\w\d_\.]+)=(?P<value>[-\d\.einf]+)$" )
+   regexParValue = re.compile( "^(?P<par>[-\b\w\d_\.]+)=(?P<value>(nan|[-\d\.einf]+))$" )
    
    for fName in files:
       print( "Opening "+fName )
@@ -89,6 +90,7 @@ def getInputFromLogs( files ):
                print( "WARNING: Did not find all parameters. Not adding values. line: "+l )
 
          if l[:14] == "ucmles -- nll=":
+            l = l[10:] # remove the ucmles and the spaces to match as a proper parameter name
             pars = {}
             parAndValues = l.split(", ")
             for pv in parAndValues:
@@ -99,9 +101,8 @@ def getInputFromLogs( files ):
                   except ValueError:
                      print( "WARNING could not convert value to float." )
             
-            if len( pars.keys() ) == len( POIs )+len( NUISs ):
+            if len( pars.keys() ) == len( POIs )+len( NUISs )+1:
                for p,v in pars.iteritems():
-                  if p == "ucmles -- nll": p = "nll"
                   bestFit[ p ] = v
             else:
                print( "WARNING: Did not find all parameters. Not adding values. line: "+l )
@@ -118,7 +119,10 @@ def main():
    print( POIs )
 
    print( "\n--- Best fit ---" )
-   print( [ (name,value) for name,value in bestFit.iteritems() if name in [p[0] for p in POIs] or name == 'nll' ] )
+   bF = [ (name,value) for name,value in bestFit.iteritems() if name in [p[0] for p in POIs] or name == 'nll' ]
+   print( bF )
+   if len(bF) == 0:
+      print("ERROR: no bestFit value for "+options.inputFiles )
 
    print( "\n--- NLL ---" )
    maxNLL = max( [n for n in NLL['nll'] if n < 1e10] )
@@ -256,6 +260,8 @@ def main():
       for x,n in zip( NLL[poi[0]], NLL['nll'] ):
          if x in xDict: xDict[x].append( n )
          else:          xDict[x] = [ n ]
+      if options.addUnconditionalFitToGraph:
+         xDict[ bestFit[poi[0]] ] = [ bestFit['nll'] ]
       # profile in unseen poi directions
       nllTGraph = PyROOTUtils.Graph( [(x,min(y)) for x,y in xDict.iteritems()] )
       if options.subtractMinNLL: nllTGraph.add( -minNLL )
