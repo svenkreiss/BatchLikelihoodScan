@@ -223,7 +223,11 @@ def main():
    w = f.Get( options.wsName )
    mc = w.obj( options.mcName )
    data = w.data( options.dataName )
-   
+
+   # Handle the case when there is not even an empty set for 
+   # nuisance parameters by createing one.
+   if not mc.GetNuisanceParameters(): mc.SetNuisanceParameters("")
+
    f,w,mc,data = PyROOTUtils.ModelConfigUtils.apply( options, f,w,mc,data )
 
    if options.verbose:
@@ -319,7 +323,7 @@ def main():
       for p in range( poiL.getSize() ): poiL.at(p).setConstant(False)
       print( "" )
       print( "--- unconditional fit ---" )
-      minimize( nll )
+      if nuisL.getSize() > 0: minimize( nll )
       nllVal = None
       if options.evaluateWithoutOffset: nllVal = nllNoOffset.getVal()
       else:                             nllVal = nll.getVal()
@@ -352,7 +356,7 @@ def main():
       if options.skipOnInvalidNll and (nllVal > 1e30  or  nllVal != nllVal):
          print( "WARNING: nll value invalid. Skipping minimization was requested." )
       else:
-         minimize( nll )
+         if nuisL.getSize() > 0: minimize( nll )
          if options.evaluateWithoutOffset: nllVal = nllNoOffset.getVal()
          else:                             nllVal = nll.getVal()
       

@@ -2,7 +2,7 @@ from distutils.core import setup
  
 setup(
     name='BatchLikelihoodScan',
-    version='1.0.3',
+    version='1.0.4',
     packages=['BatchLikelihoodScan', 'BatchLikelihoodScan.Plugins'],
     license='LICENSE',
     description='Creates (profile) likelihood scans of RooFit/RooStats models in any dimension locally or on batch systems.',

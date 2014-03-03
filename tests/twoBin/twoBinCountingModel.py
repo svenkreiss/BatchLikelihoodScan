@@ -17,6 +17,7 @@ parser.add_option(      "--scenario", dest="scenario", default=-1, type="float",
 parser.add_option(      "--additiveMu", dest="additiveMu", default=False, action="store_true", help="Enables emulation of additive mu.")
 parser.add_option("-n", "--name", dest="name", default="twoBinStandard", help="Name for output filename.")
 parser.add_option("-p", "--prefix", dest="prefix", default="standard", help="Prefix for output filename.")
+parser.add_option(      "--noNuisParams", dest="noNuisParams", default="false", help="Build a model without nuisance parameters.", action="store_true")
 parser.add_option("-q", "--quiet", dest="verbose", action="store_false", default=True, help="Quiet output.")
 options,args = parser.parse_args()
 
@@ -228,7 +229,10 @@ def makeMeasurement( name="meas", outDir="./models/", prefix="standard" ):
 		meas.AddConstantParam("alpha_sys_VBF")
 		meas.AddConstantParam("alpha_sys_GGF")
 
-
+	if options.noNuisParams:
+		meas.AddConstantParam("alpha_sys")
+		meas.AddConstantParam("alpha_sys_VBF")
+		meas.AddConstantParam("alpha_sys_GGF")
 
 
 	#meas.CollectHistograms()
