@@ -1,7 +1,7 @@
 #  Created on: February 12, 2013
 
 __author__ = "Sven Kreiss, Kyle Cranmer"
-__version__ = "0.1"
+__version__ = "0.2"
 
 
 
@@ -258,6 +258,7 @@ def main():
    for poi in POIs:
       xDict = {}
       for x,n in zip( NLL[poi[0]], NLL['nll'] ):
+         if n != n: continue
          if x in xDict: xDict[x].append( n )
          else:          xDict[x] = [ n ]
       if options.addUnconditionalFitToGraph:
