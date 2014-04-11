@@ -1,23 +1,28 @@
-#  BatchProfileLikelihood
-# 
-#  date: February 12, 2013
-# 
-#  This is a standard demo that can be used with any ROOT file
-#  prepared in the standard way.  You specify:
-#  - name for input ROOT file
-#  - name of workspace inside ROOT file that holds model and data
-#  - name of ModelConfig that specifies details for calculator tools
-#  - name of dataset
+#!/usr/bin/env python
+
+"""
+BatchProfileLikelihood
+
+date: February 12, 2013
+
+This is a standard demo that can be used with any ROOT file
+prepared in the standard way.  You specify:
+- name for input ROOT file
+- name of workspace inside ROOT file that holds model and data
+- name of ModelConfig that specifies details for calculator tools
+- name of dataset
+"""
 
 __author__ = "Sven Kreiss, Kyle Cranmer"
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 
+import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True
 import PyROOTUtils
 
-
 import optparse
-parser = optparse.OptionParser(version="0.1")
+parser = optparse.OptionParser(version=__version__)
 parser.add_option("-o", "--output", help="output location", type="string", dest="output", default="batchOutput/")
 
 PyROOTUtils.ModelConfigUtils.addOptionsToOptParse( parser )
@@ -53,8 +58,6 @@ if options.reorderParameters: options.reorderParameters = [ int(j) for j in opti
 else:                         options.reorderParameters = []
 
 
-
-import ROOT
 import PyROOTUtils.style
 
 import math
@@ -67,7 +70,8 @@ def setParameterToBin( par, binNumber, reverse = False ):
       par.setVal( par.getMin() +  (float(binNumber)+0.5)/par.getBins()*( par.getMax()-par.getMin() ) )
    else:
       par.setVal( par.getMax() -  (float(binNumber)+0.5)/par.getBins()*( par.getMax()-par.getMin() ) )
-   
+
+
 def parametersNCube( parLIn, i, reversedParameters = [], reorderParameters = [] ):
    if parLIn.getSize() == len(reorderParameters):
       parL = ROOT.RooArgList( "reorderedParList" )
@@ -83,6 +87,7 @@ def parametersNCube( parLIn, i, reversedParameters = [], reorderParameters = [] 
          i -= int(i/lowerDim) * lowerDim
       else:
          setParameterToBin( parL.at(d), i, d in reversedParameters )
+
          
 def jobBins( numPoints ):
    if options.unconditionalFitInSeparateJob and options.counter == options.jobs:
@@ -92,6 +97,7 @@ def jobBins( numPoints ):
       int(math.ceil(float(options.counter)*numPoints/options.jobs)),
       int(math.ceil(float(options.counter+1.0)*numPoints/options.jobs))
    )
+
 
 def visualizeEnumeration( poiL ):
    if poiL.getSize() != 2:

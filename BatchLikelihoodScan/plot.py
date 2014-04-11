@@ -1,14 +1,18 @@
-#  Created on: February 12, 2013
+#!/usr/bin/env python
+
+"""
+Created on: February 12, 2013
+"""
 
 __author__ = "Sven Kreiss, Kyle Cranmer"
-__version__ = "0.2"
+__version__ = "0.1.1"
 
 
 
 
 import optparse
 
-parser = optparse.OptionParser(version="0.1.1")
+parser = optparse.OptionParser(version=__version__)
 parser.add_option("-i", "--inputFiles", help="glob expression for log files from BatchProfileLikelihood.py", type="string", dest="inputFiles", default="batchProfile.log")
 parser.add_option("-o", "--outputFile", help="output root file", type="string", dest="outputFile", default="PL_data.root")
 parser.add_option(      "--subtractMinNLL", help="subtracts the minNLL", dest="subtractMinNLL", default=False, action="store_true")
